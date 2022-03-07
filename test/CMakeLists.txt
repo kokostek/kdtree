@@ -18,13 +18,16 @@ FetchContent_MakeAvailable(googletest)
 enable_testing()
 
 add_executable(
-  HelloTest
-  HelloTest.cpp
+  kdtree_test
+  node.cpp
+  tree.cpp
 )
+
 target_link_libraries(
-  HelloTest
+  kdtree_test
   gtest_main
+  kdtree
 )
 
 include(GoogleTest)
-gtest_discover_tests(HelloTest)
+gtest_discover_tests(kdtree_test) 
