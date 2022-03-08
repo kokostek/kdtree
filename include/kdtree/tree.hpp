@@ -52,7 +52,7 @@ namespace kdtree {
 			return root_;
 		}
 
-		void Format(std::ostream& os) const {
+		void format(std::ostream& os) const {
 			root_->format(os);
 		}
 
@@ -184,7 +184,7 @@ namespace kdtree {
 	template<class Point, class Distance, auto KDim>
 	std::ostream& operator<<(
 		std::ostream& os, tree<Point, Distance, KDim> const& tree) {
-		tree.Format(os);
+		tree.format(os);
 		return os;
 	}
 

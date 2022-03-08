@@ -3,31 +3,34 @@
 #include <memory>
 #include <utility>
 
+#include "point_traits.hpp"
+
 namespace kdtree {
-	template<class Value>
+	template<class Point>
 	class node
 	{
 	public:
+		using point_type = Point;
 		using container_type = std::unique_ptr<node>;
 
 		node() : value_({}) {}
 			
-		node(const Value& value, container_type left, container_type right)
+		node(const Point& value, container_type left, container_type right)
 			: value_(value), left_(std::move(left)), right_(std::move(right)) {
 		}
 
-		node(const Value& value) : value_(value) {
+		node(const Point& value) : value_(value) {
 		}
 
 		void format(std::ostream& os) const {
 			format(os, *this);
 		}
 
-		const Value& value() const {
+		const Point& value() const {
 			return value_;
 		}
 
-		Value& value() {
+		Point& value() {
 			return value_;
 		}
 
@@ -49,7 +52,7 @@ namespace kdtree {
 
 	private:
 
-		Value value_;
+		Point value_;
 		container_type left_;
 		container_type right_;
 
@@ -59,10 +62,11 @@ namespace kdtree {
 			}
 		}
 
-		static void format(std::ostream& os, const node<Value>& node, const int& level = 0) {
+		static void format(std::ostream& os, const node<Point>& node, const int& level = 0) {
 
 			indent(os, level);
-			os << node.value() << std::endl;
+
+			point_traits<Point>::format(os, node.value()) << "\n";
 
 			if (bool(node.left())) {
 				format(os, *node.left(), level + 1);
@@ -74,11 +78,11 @@ namespace kdtree {
 		}
 	};
 
-	template<typename Value>
-	bool operator!=(const node<Value>& a, const node<Value>& b);
+	template<typename Point>
+	bool operator!=(const node<Point>& a, const node<Point>& b);
 		
-	template<typename Value>
-	bool operator==(const node<Value>& a, const node<Value>& b) {
+	template<typename Point>
+	bool operator==(const node<Point>& a, const node<Point>& b) {
 		if (a.value() != b.value()) return false;
 		
 		if (bool(a.left()) != bool(b.left())) return false;
@@ -90,18 +94,18 @@ namespace kdtree {
 		return true;
 	}
 
-	template<typename Value>
-	bool operator!=(const node<Value>& a, const node<Value>& b) {
+	template<typename Point>
+	bool operator!=(const node<Point>& a, const node<Point>& b) {
 		return !(a == b);
 	}
 
-	template<class Value>
-	static constexpr node<Value>::container_type make_leaf() {
-		return std::unique_ptr<node<Value>>();
+	template<class Point>
+	static constexpr node<Point>::container_type make_leaf() {
+		return std::unique_ptr<node<Point>>();
 	}
 
-	template<class Value, class... Args>
-	static constexpr node<Value>::container_type make_node(Value value, Args&&... args) {
-		return std::make_unique<node<Value>>(std::forward<Value>(value), std::forward<Args>(args)...);
+	template<class Point, class... Args>
+	static constexpr node<Point>::container_type make_node(Point value, Args&&... args) {
+		return std::make_unique<node<Point>>(std::forward<Point>(value), std::forward<Args>(args)...);
 	}
 }
