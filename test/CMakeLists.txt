@@ -21,7 +21,7 @@ add_executable(
   kdtree_test
   node.cpp
   tree.cpp
-  vector2.cpp
+  point2d.cpp
 )
 
 target_link_libraries(

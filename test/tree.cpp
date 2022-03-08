@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <kdtree/tree.hpp>
-#include <kdtree/vector2.hpp>
+#include <kdtree/point2d.hpp>
 
 namespace kd = kdtree;
 
@@ -10,7 +10,7 @@ TEST(tree, empty) {
 }
 
 TEST(tree, single_node) {
-	kd::tree<kd::float2, float, 2> tree(kd::make_node(kd::float2{1, 2}));
+	kd::tree_t<kd::float2> tree(kd::make_node(kd::float2{ 1, 2 }));
 	EXPECT_TRUE(tree.root());
 	EXPECT_EQ(tree.root()->value(), kd::float2(1, 2));
 	EXPECT_FALSE(tree.root()->left(), kd::float2(1, 2));

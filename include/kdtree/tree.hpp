@@ -8,28 +8,9 @@
 #include <utility>
 
 #include "node.hpp"
+#include "point_traits.hpp"
 
 namespace kdtree {
-
-	template<class Point, class Distance, auto KDim>
-	class tree;
-
-	template<class Point, class Distance, auto KDim>
-	std::ostream& operator<<(
-		std::ostream& os, tree<Point, Distance, KDim> const& tree) {
-		tree.Format(os);
-		return os;
-	}
-
-	template<class Point, class Distance, auto KDim>
-	bool operator==(
-		const tree<Point, Distance, KDim>& a,
-		const tree<Point, Distance, KDim>& b) {
-		if (bool(a.root()) != bool(b.root())) return false;
-		if (a.root() && *a.root() != *b.root()) return false;
-		return true;
-	}
-
 	template<class Point, class Distance, auto KDim>
 	class tree {
 	public:
@@ -199,4 +180,28 @@ namespace kdtree {
 			return further_2;
 		}
 	};
+
+	template<class Point, class Distance, auto KDim>
+	std::ostream& operator<<(
+		std::ostream& os, tree<Point, Distance, KDim> const& tree) {
+		tree.Format(os);
+		return os;
+	}
+
+	template<class Point, class Distance, auto KDim>
+	bool operator==(
+		const tree<Point, Distance, KDim>& a,
+		const tree<Point, Distance, KDim>& b) {
+		if (bool(a.root()) != bool(b.root())) return false;
+		if (a.root() && *a.root() != *b.root()) return false;
+		return true;
+	}
+
+	template<class Point>
+	struct make_tree {
+		using type = tree<Point, typename point_traits<Point>::distance_type, point_traits<Point>::kdim>;
+	};
+
+	template<class Point>
+	using tree_t = make_tree<Point>::type;
 }

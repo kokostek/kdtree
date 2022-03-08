@@ -7,8 +7,9 @@ project (KDTREE)
 
 set(header_files
     ${CMAKE_CURRENT_SOURCE_DIR}/include/kdtree/node.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/kdtree/point_traits.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/kdtree/point2d.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/kdtree/tree.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/kdtree/vector2.hpp
 )
 
 add_library(kdtree INTERFACE)
