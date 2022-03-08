@@ -137,3 +137,21 @@ TEST(tree, build) {
 
 	EXPECT_EQ(expected_tree, actual_tree);
 }
+
+TEST(tree, find_nearest) {
+	const std::vector<kd::float2> points{
+		{2, 3},
+		{5, 4},
+		{9, 6},
+		{4, 7},
+		{8, 1},
+		{7, 2},
+	};
+
+	const auto tree{ kd::tree<kd::float2, float, 2>::build(points) };
+
+	EXPECT_EQ(tree.find_nearest({ 8, 7 }).value(), kd::float2(9, 6));
+	EXPECT_EQ(tree.find_nearest({ 2, 3 }).value(), kd::float2(2, 3));
+	EXPECT_EQ(tree.find_nearest({ 5, 6 }).value(), kd::float2(4, 7));
+	EXPECT_EQ(tree.find_nearest({ 0, 0 }).value(), kd::float2(2, 3));
+}
