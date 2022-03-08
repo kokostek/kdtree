@@ -6,9 +6,10 @@ cmake_minimum_required (VERSION 3.8)
 project (KDTREE)
 
 set(header_files
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/kdtree/float2.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/kdtree/node.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/kdtree/tree.hpp)
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/kdtree/tree.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/kdtree/vector2.hpp
+)
 
 add_library(kdtree INTERFACE)
 target_sources(kdtree INTERFACE "$<BUILD_INTERFACE:${header_files}>")

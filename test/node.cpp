@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include "kdtree/node.hpp"
-#include "kdtree/float2.hpp"
+#include "kdtree/vector2.hpp"
 
 namespace kd = kdtree;
 

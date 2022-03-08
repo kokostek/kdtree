@@ -19,9 +19,9 @@ enable_testing()
 
 add_executable(
   kdtree_test
-  float2.cpp
   node.cpp
   tree.cpp
+  vector2.cpp
 )
 
 target_link_libraries(
