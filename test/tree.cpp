@@ -1,16 +1,17 @@
-#include <gtest/gtest.h>
 #include <kdtree/tree.hpp>
 #include <kdtree/point2d.hpp>
+#include <gtest/gtest.h>
+#include <vector>
 
 namespace kd = kdtree;
 
 TEST(tree, empty) {
-	kd::tree<kd::float2, float, 2> tree;
+	kd::tree_t<kd::float2> tree;
 	EXPECT_FALSE(tree.root());
 }
 
 TEST(tree, single_node) {
-	kd::tree_t<kd::float2> tree(kd::make_node(kd::float2{ 1, 2 }));
+	const auto tree = kd::make_tree<kd::float2>(kd::make_node(kd::float2{ 1, 2 }));
 	EXPECT_TRUE(tree.root());
 	EXPECT_EQ(tree.root()->value(), (kd::float2{ 1, 2 }));
 	EXPECT_FALSE(tree.root()->left(), kd::float2{ 1, 2 });
@@ -18,8 +19,7 @@ TEST(tree, single_node) {
 }
 
 TEST(tree, find_nearest_no_throw) {
-	
-	kd::tree<kd::float2, float, 2> tree(
+	const auto tree = kd::make_tree<kd::float2>(
 		kd::make_node(
 			kd::float2{ 0, 0 },
 			kd::make_node(
@@ -36,7 +36,7 @@ TEST(tree, find_nearest_no_throw) {
 }
 
 TEST(tree, equality) {
-	const kd::tree<kd::float2, float, 2> tree1(
+	const auto tree1 = kd::make_tree<kd::float2>(
 		kd::make_node(
 			kd::float2{ 7, 2 },
 			kd::make_node(
@@ -52,7 +52,7 @@ TEST(tree, equality) {
 		)
 	);
 
-	const kd::tree<kd::float2, float, 2> tree2(
+	const auto tree2 = kd::make_tree<kd::float2>(
 		kd::make_node(
 			kd::float2{ 7, 2 },
 			kd::make_node(
@@ -68,7 +68,7 @@ TEST(tree, equality) {
 		)
 	);
 
-	const kd::tree<kd::float2, float, 2> tree3(
+	const auto tree3 = kd::make_tree<kd::float2>(
 		kd::make_node(
 			kd::float2{ 7, 2 },
 			kd::make_node(
@@ -84,7 +84,7 @@ TEST(tree, equality) {
 		)
 	);
 
-	const kd::tree<kd::float2, float, 2> tree4;
+	const kd::tree_t<kd::float2> tree4;
 
 	EXPECT_TRUE(tree1 == tree1);
 	EXPECT_TRUE(tree1 == tree2);
@@ -117,7 +117,7 @@ TEST(tree, build) {
 		{7, 2},
 	};
 
-	const kd::tree<kd::float2, float, 2> expected_tree(
+	const auto expected_tree = kd::make_tree<kd::float2>(
 		kd::make_node(
 			kd::float2{7, 2},
 			kd::make_node(
@@ -133,7 +133,39 @@ TEST(tree, build) {
 		)
 	);
 
-	const auto actual_tree{ kd::tree<kd::float2, float, 2>::build(points) };
+	const auto actual_tree{ kd::build_tree<kd::float2>(points) };
+
+	EXPECT_EQ(expected_tree, actual_tree);
+}
+
+TEST(tree, build_vector) {
+	const std::vector<std::vector<float>> points{
+		{2, 3},
+		{5, 4},
+		{9, 6},
+		{4, 7},
+		{8, 1},
+		{7, 2},
+	};
+
+	const auto expected_tree = kd::tree_t<std::vector<float>>(
+		kd::make_node(
+			std::vector{ 7.f, 2.f },
+			kd::make_node(
+				std::vector{ 5.f, 4.f },
+				kd::make_node(std::vector{ 2.f, 3.f }),
+				kd::make_node(std::vector{ 4.f, 7.f })
+			),
+			kd::make_node(
+				std::vector{ 9.f, 6.f },
+				kd::make_node(std::vector{ 8.f, 1.f }),
+				kd::make_leaf<std::vector<float>>()
+			)
+		),
+		2
+	);
+
+	const auto actual_tree{ kd::tree_t<std::vector<float>>::build(points, 2) };
 
 	EXPECT_EQ(expected_tree, actual_tree);
 }
@@ -148,7 +180,7 @@ TEST(tree, find_nearest) {
 		{7, 2},
 	};
 
-	const auto tree{ kd::tree<kd::float2, float, 2>::build(points) };
+	const auto tree{ kd::build_tree<kd::float2>(points) };
 
 	EXPECT_EQ(tree.find_nearest({ 8, 7 }).value(), (kd::float2{ 9, 6 }));
 	EXPECT_EQ(tree.find_nearest({ 2, 3 }).value(), (kd::float2{ 2, 3 }));
