@@ -12,19 +12,14 @@ namespace kdtree {
 
 		float2(float x, float y) : x(x), y(y) {}
 
-		const float& operator[](auto index) const {
-			const std::array<float, 2> xy{ x, y };
-			return xy[index];
-		}
-
-		float& operator[](auto index) {
+		float operator[](auto index) const {
 			const std::array<float, 2> xy{ x, y };
 			return xy[index];
 		}
 	};
 
 	inline std::ostream& operator<<(std::ostream& os, const float2& val) {
-		return os << "(" << val.x << ", " << val.y << ")";
+		return os << "[" << val.x << ", " << val.y << "]";
 	}
 
 	inline bool operator==(const float2& a, const float2& b) {

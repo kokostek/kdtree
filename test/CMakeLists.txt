@@ -19,6 +19,7 @@ enable_testing()
 
 add_executable(
   kdtree_test
+  float2.cpp
   node.cpp
   tree.cpp
 )

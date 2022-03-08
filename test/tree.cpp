@@ -108,7 +108,6 @@ TEST(tree, equality) {
 }
 
 TEST(tree, build) {
-	
 	const std::vector<kd::float2> points{
 		{2, 3},
 		{5, 4},
@@ -136,5 +135,5 @@ TEST(tree, build) {
 
 	const auto actual_tree{ kd::tree<kd::float2, float, 2>::build(points) };
 
-	EXPECT_TRUE(expected_tree == actual_tree);
+	EXPECT_EQ(expected_tree, actual_tree);
 }
