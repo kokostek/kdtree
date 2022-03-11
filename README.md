@@ -4,7 +4,7 @@
 * C++20 compiler for concepts and `std::ranges` support.
 * CMake-3.19+ for `CMakePresets.json` support.
 
-See `samples` dir for usage examples.
+See [samples](https://github.com/kokostek/kdtree/tree/master/samples) dir for usage examples.
 
 ## Third-party libraries
 * [google test](https://github.com/google/googletest) - for tests only. Turn off `KDTREE_BUILD_TESTS` in cmake to disable tests.
