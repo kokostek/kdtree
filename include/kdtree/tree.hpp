@@ -77,7 +77,7 @@ namespace kdtree {
 		int kdim_;
 
 		template<points_range Points, index_range Index>
-		static void argsort(const Points& points, Index& indices, const auto axis) {
+		static void argsort(Points& points, Index& indices, const auto axis) {
 
 			const auto length = std::ranges::size(indices);
 
@@ -93,7 +93,7 @@ namespace kdtree {
 
 		template<points_range Points, index_range Index>
 		static typename node<Point>::container_type build_root(
-			const auto kdim, const Points& points, Index& indices, const auto axis) {
+			const auto kdim, Points& points, Index& indices, const auto axis) {
 
 			const auto indices_length = std::ranges::size(indices);
 
@@ -223,8 +223,14 @@ namespace kdtree {
 	using points_range_tree_t = tree<points_range_point_t<Points>>;
 
 	template<points_range Points>
-	points_range_tree_t<Points> build_tree(const Points& points) {
+	points_range_tree_t<Points> build_tree(Points& points) {
 		using point_t = points_range_point_t<Points>;
 		return points_range_tree_t<Points>::build(points, point_kdim_v<point_t>);
+	}
+
+	template<point Point>
+	tree<Point> build_tree(std::initializer_list<Point>&& points) {
+		std::vector points_vec(std::forward<std::initializer_list<Point>>(points));
+		return tree<Point>::build(points_vec, point_kdim_v<Point>);
 	}
 }

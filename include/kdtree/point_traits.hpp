@@ -1,7 +1,8 @@
 #pragma once
 #include <array>
 #include <vector>
-#include <ostream>
+#include <string>
+#include <sstream>
 #include <ranges>
 
 namespace kdtree {
@@ -30,20 +31,32 @@ namespace kdtree {
 
 	template<class Point>
 	struct point_traits {
-		static constexpr std::ostream& format(std::ostream& os, const Point& p) {
-			return os << p;
+		static constexpr std::string& format(const Point& p) {
+			std::ostringstream os;
+			os << p;
+			return os.str();
 		}
 	};
 
-	template<std::ranges::range T>
-	struct point_traits<T> {
-		static constexpr std::ostream& format(std::ostream& os, const T& p) {
+	template<std::ranges::range Point>
+	struct point_traits<Point> {
+		static constexpr std::string format(const Point& p) {
+			std::ostringstream os;
 			os << "[";
-			for (const auto& t : p) {
-				os << t << ", ";
+			
+			auto begin = std::ranges::begin(p);
+			auto end = std::ranges::end(p);
+
+			if (begin != end) {
+				os << *begin;
+				auto s = std::ranges::subrange(++begin, end);
+				for (const auto& t : s) {
+					os << ", "  << t;
+				}
 			}
+
 			os << "]";
-			return os;
+			return os.str();
 		}
 	};
 

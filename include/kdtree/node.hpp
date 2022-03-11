@@ -64,7 +64,7 @@ namespace kdtree {
 
 			indent(os, level);
 
-			point_traits<Point>::format(os, node.value()) << "\n";
+			os << point_traits<Point>::format(node.value()) << "\n";
 
 			if (bool(node.left())) {
 				format(os, *node.left(), level + 1);
