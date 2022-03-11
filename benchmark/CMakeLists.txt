@@ -15,12 +15,12 @@ set(BENCHMARK_ENABLE_TESTING OFF)
 FetchContent_MakeAvailable(benchmark)
 
 add_executable(
-	kdtree_benchmark
-	main.cpp
+    kdtree_benchmark
+    main.cpp
     point_generator.hpp
-	baseline_tree.hpp)
+    baseline_tree.hpp)
 
 target_link_libraries(
-	kdtree_benchmark 
-	benchmark::benchmark
-	kdtree)
+    kdtree_benchmark 
+    benchmark::benchmark
+    kdtree)

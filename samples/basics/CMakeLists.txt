@@ -10,6 +10,6 @@ add_executable(
 )
 
 target_link_libraries(
-	kdtree_samples_basics
-	kdtree
+    kdtree_samples_basics
+    kdtree
 )
