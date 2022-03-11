@@ -31,7 +31,7 @@ namespace kdtree {
 
 	template<class Point>
 	struct point_traits {
-		static constexpr std::string& format(const Point& p) {
+		static constexpr std::string format(const Point& p) {
 			std::ostringstream os;
 			os << p;
 			return os.str();
