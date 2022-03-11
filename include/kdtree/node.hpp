@@ -1,9 +1,7 @@
 #pragma once
 
-#include <memory>
-#include <utility>
-
 #include "point_traits.hpp"
+#include <memory>
 
 namespace kdtree {
 	template<class Point>

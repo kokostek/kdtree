@@ -1,16 +1,14 @@
 #pragma once
 
-#include <algorithm>
-#include <iostream>
-#include <vector>
-#include <array>
-#include <numeric>
-#include <utility>
-#include <ranges>
-#include <type_traits>
-
 #include "node.hpp"
 #include "point_traits.hpp"
+
+#include <algorithm>
+#include <ostream>
+#include <vector>
+#include <numeric>
+#include <ranges>
+#include <type_traits>
 
 namespace kdtree {
 
