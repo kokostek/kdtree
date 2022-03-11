@@ -6,16 +6,16 @@
 namespace kd = kdtree;
 
 TEST(tree, empty) {
-	kd::tree_t<kd::float2> tree;
-	EXPECT_FALSE(tree.root());
+	kd::tree<kd::float2> tree1;
+	EXPECT_FALSE(tree1.root());
 }
 
 TEST(tree, single_node) {
 	const auto tree = kd::make_tree<kd::float2>(kd::make_node(kd::float2{ 1, 2 }));
 	EXPECT_TRUE(tree.root());
 	EXPECT_EQ(tree.root()->value(), (kd::float2{ 1, 2 }));
-	EXPECT_FALSE(tree.root()->left(), kd::float2{ 1, 2 });
-	EXPECT_FALSE(tree.root()->right(), kd::float2{ 1, 2 });
+	EXPECT_FALSE(tree.root()->left());
+	EXPECT_FALSE(tree.root()->right());
 }
 
 TEST(tree, find_nearest_no_throw) {
@@ -84,7 +84,7 @@ TEST(tree, equality) {
 		)
 	);
 
-	const kd::tree_t<kd::float2> tree4;
+	const kd::tree<kd::float2> tree4;
 
 	EXPECT_TRUE(tree1 == tree1);
 	EXPECT_TRUE(tree1 == tree2);
@@ -133,7 +133,7 @@ TEST(tree, build) {
 		)
 	);
 
-	const auto actual_tree{ kd::build_tree<kd::float2>(points) };
+	const auto actual_tree{ kd::build_tree(points) };
 
 	EXPECT_EQ(expected_tree, actual_tree);
 }
@@ -148,7 +148,7 @@ TEST(tree, build_vector) {
 		{7, 2},
 	};
 
-	const auto expected_tree = kd::tree_t<std::vector<float>>(
+	const auto expected_tree = kd::tree<std::vector<float>>(
 		kd::make_node(
 			std::vector{ 7.f, 2.f },
 			kd::make_node(
@@ -165,7 +165,7 @@ TEST(tree, build_vector) {
 		2
 	);
 
-	const auto actual_tree{ kd::tree_t<std::vector<float>>::build(points, 2) };
+	const auto actual_tree{ kd::tree<std::vector<float>>::build(points, 2) };
 
 	EXPECT_EQ(expected_tree, actual_tree);
 }
@@ -180,10 +180,10 @@ TEST(tree, find_nearest) {
 		{7, 2},
 	};
 
-	const auto tree{ kd::build_tree<kd::float2>(points) };
+	const auto tree{ kd::build_tree(points) };
 
-	EXPECT_EQ(tree.find_nearest({ 8, 7 }).value(), (kd::float2{ 9, 6 }));
-	EXPECT_EQ(tree.find_nearest({ 2, 3 }).value(), (kd::float2{ 2, 3 }));
-	EXPECT_EQ(tree.find_nearest({ 5, 6 }).value(), (kd::float2{ 4, 7 }));
-	EXPECT_EQ(tree.find_nearest({ 0, 0 }).value(), (kd::float2{ 2, 3 }));
+	EXPECT_EQ(tree.find_nearest({ 8, 7 }), (kd::float2{ 9, 6 }));
+	EXPECT_EQ(tree.find_nearest({ 2, 3 }), (kd::float2{ 2, 3 }));
+	EXPECT_EQ(tree.find_nearest({ 5, 6 }), (kd::float2{ 4, 7 }));
+	EXPECT_EQ(tree.find_nearest({ 0, 0 }), (kd::float2{ 2, 3 }));
 }
