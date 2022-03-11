@@ -32,4 +32,6 @@ endif()
 
 if (${KDTREE_BUILD_SAMPLES})
     add_subdirectory ("samples/basics")
+    add_subdirectory ("samples/custom_point")
+    add_subdirectory ("samples/vector_point")
 endif()
