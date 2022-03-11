@@ -1,4 +1,4 @@
-#include <array>
+﻿#include <array>
 #include <numeric>
 #include <vector>
 
@@ -17,7 +17,7 @@ namespace kdtree::benchmark {
             : points_(points)
             , kdim_(kdim) {}
 
-        Point const& find_nearest(Point const& key) const {
+        Point find_nearest(Point const& key) const {
             auto min_dist = std::numeric_limits<distance_type>::max();
             point_type result;
             for (const auto& p : points_) {
