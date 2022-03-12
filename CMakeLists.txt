@@ -12,6 +12,7 @@ set(header_files
     ${CMAKE_CURRENT_SOURCE_DIR}/include/kdtree/point2d.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/kdtree/point3d.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/kdtree/tree.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/kdtree/tree_detail.hpp
 )
 
 add_library(kdtree INTERFACE)
