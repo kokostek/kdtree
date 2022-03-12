@@ -64,8 +64,13 @@ namespace kdtree {
             root_->format(os);
         }
 
-        Point const& find_nearest(const Point& key) const {
-            return detail::find_nearest(*root_, key, kdim_).value();
+        Point find_nearest(const Point& key) const {
+            if (root_) {
+                return detail::find_nearest(*root_, key, kdim_).value();
+            } 
+            else {
+                return Point{};
+            }
         }
 
     private:

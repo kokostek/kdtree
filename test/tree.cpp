@@ -1,4 +1,4 @@
-#include <kdtree/tree.hpp>
+﻿#include <kdtree/tree.hpp>
 #include <kdtree/point2d.hpp>
 #include <gtest/gtest.h>
 #include <vector>
@@ -16,6 +16,28 @@ TEST(tree, single_node) {
     EXPECT_EQ(tree.root()->value(), (kd::float2{ 1, 2 }));
     EXPECT_FALSE(tree.root()->left());
     EXPECT_FALSE(tree.root()->right());
+}
+
+TEST(tree, find_nearest_empty_float2) {
+
+    const auto tree{ kd::make_tree<kd::float2>() };
+
+    EXPECT_NO_THROW(tree.find_nearest(kd::float2{}));
+
+    EXPECT_EQ(tree.find_nearest(kd::float2{}), (kd::float2{}));
+    EXPECT_EQ(tree.find_nearest(kd::float2{ 1, 2 }), (kd::float2{}));
+    EXPECT_EQ(tree.find_nearest(kd::float2{ 3, 4 }), (kd::float2{}));
+}
+
+TEST(tree, find_nearest_empty_vector) {
+    const auto tree{ kd::tree<std::vector<float>>(33) };
+
+    EXPECT_NO_THROW(tree.find_nearest(std::vector<float>{}));
+
+    EXPECT_EQ(tree.find_nearest(std::vector<float>{}).size(), 0);
+    EXPECT_EQ(tree.find_nearest(std::vector<float>(1)).size(), 0);
+    EXPECT_EQ(tree.find_nearest(std::vector<float>(2)).size(), 0);
+    EXPECT_EQ(tree.find_nearest(std::vector<float>(33)).size(), 0);
 }
 
 TEST(tree, find_nearest_no_throw) {
