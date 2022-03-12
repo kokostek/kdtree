@@ -1,5 +1,7 @@
 # kdtree - header-only [k-d tree](https://en.wikipedia.org/wiki/K-d_tree) implementation
 
+[![Build and test](https://github.com/kokostek/kdtree/actions/workflows/build_and_test.yml/badge.svg)](https://github.com/kokostek/kdtree/actions/workflows/build_and_test.yml)
+
 ## Prerequisites
 * C++20 compiler for concepts and `std::ranges` support.
 * CMake-3.19+ for `CMakePresets.json` support.
