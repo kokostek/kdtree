@@ -60,8 +60,8 @@ namespace kdtree {
             return root_;
         }
 
-        void format(std::ostream& os) const {
-            root_->format(os);
+        constexpr bool is_empty() const {
+            return !root_;
         }
 
         Point find_nearest(const Point& key) const {
@@ -80,8 +80,10 @@ namespace kdtree {
     template<point Point>
     std::ostream& operator<<(
         std::ostream& os, tree<Point> const& tree) {
-        tree.format(os);
-        return os;
+        if (tree.root()) {
+            return os << *tree.root();
+        }
+        return os << "<empty tree>";
     }
 
     template<class Point>

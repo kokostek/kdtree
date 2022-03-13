@@ -2,6 +2,7 @@
 
 #include "point_traits.hpp"
 #include <memory>
+#include <ostream>
 
 namespace kdtree {
     template<class Point>
@@ -18,10 +19,6 @@ namespace kdtree {
         }
 
         node(const Point& value) : value_(value) {
-        }
-
-        void format(std::ostream& os) const {
-            format(os, *this);
         }
 
         const Point& value() const {
@@ -53,27 +50,6 @@ namespace kdtree {
         Point value_;
         container_type left_;
         container_type right_;
-
-        static void indent(std::ostream& os, const size_t& level) {
-            for (size_t i = 0; i < level; ++i) {
-                os << "| ";
-            }
-        }
-
-        static void format(std::ostream& os, const node<Point>& node, const int& level = 0) {
-
-            indent(os, level);
-
-            os << point_traits<Point>::format(node.value()) << "\n";
-
-            if (bool(node.left())) {
-                format(os, *node.left(), level + 1);
-            }
-
-            if (bool(node.right())) {
-                format(os, *node.right(), level + 1);
-            }
-        }
     };
 
     template<typename Point>
@@ -109,4 +85,35 @@ namespace kdtree {
 
     template<class Point>
     using node_container_t = node<Point>::container_type;
+
+    namespace detail {
+        inline void indent(std::ostream& os, const int& level) {
+            for (auto i = 0; i < level; ++i) {
+                os << "| ";
+            }
+        }
+
+        template<class Point>
+        void format(std::ostream& os, const node<Point>& node, const int& level = 0) {
+
+            indent(os, level);
+
+            os << point_traits<Point>::format(node.value()) << "\n";
+
+            if (bool(node.left())) {
+                format(os, *node.left(), level + 1);
+            }
+
+            if (bool(node.right())) {
+                format(os, *node.right(), level + 1);
+            }
+        }
+    }
+
+    template<point Point>
+    std::ostream& operator<<(
+        std::ostream& os, const node<Point>& node) {
+        detail::format(os, node);
+        return os;
+    }
 }
