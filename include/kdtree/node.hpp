@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "point_traits.hpp"
 #include <memory>
@@ -106,4 +106,7 @@ namespace kdtree {
     static constexpr node<Point>::container_type make_node(Point value, Args&&... args) {
         return std::make_unique<node<Point>>(std::forward<Point>(value), std::forward<Args>(args)...);
     }
+
+    template<class Point>
+    using node_container_t = node<Point>::container_type;
 }

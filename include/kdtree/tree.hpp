@@ -65,12 +65,11 @@ namespace kdtree {
         }
 
         Point find_nearest(const Point& key) const {
-            if (root_) {
-                return detail::find_nearest(*root_, key, kdim_).value();
-            } 
-            else {
-                return Point{};
-            }
+            return detail::find_nearest(root_, key, kdim_);
+        }
+
+        std::vector<Point> find_nearest_n(const Point& key, const auto& num) const {
+            return detail::find_nearest_n(root_, key, kdim_, num);
         }
 
     private:

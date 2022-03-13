@@ -148,12 +148,97 @@ namespace kdtree::detail {
     }
 
     template<point Point>
-    node<Point> const& find_nearest(
-        const node<Point>& root,
+    Point find_nearest(
+        const node_container_t<Point>& root,
         const Point& key,
         const auto& kdim) {
+
+        if (!root) {
+            return Point{};
+        }
+
         using distance_t = point_distance_t<Point>;
+        
         const find_result_t<Point> worst{ nullptr, std::numeric_limits<distance_t>::max() };
-        return *find_nearest_r(&root, key, 0, kdim, worst).first;
+        
+        return find_nearest_r(root.get(), key, 0, kdim, worst).first->value();
+    }
+
+    template<point Point>
+    using find_result_vector_t = std::vector<find_result_t<Point>>;
+
+    template<point Point>
+    static void append_result(
+        find_result_vector_t<Point>& results,
+        const find_result_t<Point>& value,
+        const auto& num) {
+
+        if (num == 0) return;
+
+        using distance_t = point_distance_t<Point>;
+
+        const auto u = std::ranges::upper_bound(
+            results, value.second, std::less(), &find_result_t<Point>::second);
+
+        if (results.size() < num) {
+            results.insert(u, value);
+        }
+        else if (u != results.end()) {
+            results.insert(u, value);
+            results.pop_back();
+        }
+    }
+
+    template<point Point>
+    void find_nearest_n_r(
+        const node<Point>* root,
+        const Point& key,
+        const auto& axis,
+        const auto& kdim,
+        const auto& num,
+        find_result_vector_t<Point>& results) {
+
+        const auto dist = dist_sqr(key, root->value(), kdim);
+
+        const auto& root_at_axis = root->value()[axis];
+        const auto& key_at_axis = key[axis];
+        const auto delta = root_at_axis - key_at_axis;
+        const auto delta2 = delta * delta;
+
+        append_result(results, std::make_pair(root, dist), num);
+
+        auto [selected, other] = delta > 0
+            ? std::make_pair(root->left().get(), root->right().get())
+            : std::make_pair(root->right().get(), root->left().get());
+
+        const auto next_axis = (axis + 1) % kdim;
+
+        if (selected) {
+            find_nearest_n_r(selected, key, next_axis, kdim, num, results);
+        }
+
+        if (other && (results.size() < num || delta2 < results[results.size() - 1].second)) {
+            find_nearest_n_r(other, key, next_axis, kdim, num, results);
+        }
+    }
+        
+    template<point Point>
+    std::vector<Point> find_nearest_n(
+        const node_container_t<Point>& root,
+        const Point& key,
+        const auto& kdim,
+        const auto& num) {
+
+        if (!root || num == 0) return std::vector<Point>{};
+        
+        find_result_vector_t<Point> results;
+        find_nearest_n_r(root.get(), key, 0, kdim, num, results);
+
+        std::vector<Point> points;
+        std::ranges::transform(
+            results, std::back_inserter(points),
+            [](const auto& res) { return res.first->value(); });
+
+        return points;
     }
 }
