@@ -6,8 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 add_executable(
   kdtree_samples_readme_03
-  main.cpp
- "readme_02/main.cpp")
+  main.cpp)
 
 target_link_libraries(
 	kdtree_samples_readme_03
