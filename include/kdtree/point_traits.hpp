@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <array>
 #include <vector>
 #include <string>
@@ -37,6 +37,11 @@ namespace kdtree {
             return os.str();
         }
     };
+
+    template<class Point>
+    auto format_point(const Point& p) {
+        return point_traits<Point>::format(p);
+    }
 
     template<std::ranges::range Point>
     struct point_traits<Point> {
