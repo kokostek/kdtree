@@ -1,10 +1,11 @@
 ﻿#include <kdtree/tree.hpp>
 #include <kdtree/point2d.hpp>
 #include <iostream>
+#include <cstdlib>
 
 namespace kd = kdtree;
 
-void main() {
+int main() {
     // constructing tree from initializer_list of points
     const auto tree{
         kd::build_tree({
@@ -25,4 +26,6 @@ void main() {
     const kd::int2 res{ tree.find_nearest(key) };
 
     std::cout << "Nearest to " << kd::format_point(key) << " is " << kd::format_point(res) << "\n";
+    
+    return EXIT_SUCCESS;
 }

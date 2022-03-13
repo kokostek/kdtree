@@ -2,6 +2,7 @@
 #include <kdtree/point2d.hpp>
 #include <iostream>
 #include <string>
+#include <cstdlib>
 
 namespace kd = kdtree;
 
@@ -45,7 +46,7 @@ static_assert(std::same_as<kdtree::point_distance_t<my_custom_point>, float>);  
 static_assert(kdtree::point_kdim_v<my_custom_point> == 2);  // number of dims is compile-time constant
 static_assert(kdtree::point<my_custom_point>);  // satisfices point concept
 
-void main() {
+int main() {
     const auto tree{
         kd::build_tree({
             my_custom_point{-4, 9, "one"},
@@ -60,4 +61,6 @@ void main() {
     const my_custom_point res{ tree.find_nearest(key) };
 
     std::cout << "Nearest to " << key << " is " << res << "\n";
+
+    return EXIT_SUCCESS;
 }
