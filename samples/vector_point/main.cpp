@@ -1,7 +1,5 @@
-#include <kdtree/tree.hpp>
-#include <kdtree/point2d.hpp>
+﻿#include <kdtree/tree.hpp>
 #include <vector>
-#include <initializer_list>
 #include <cstdlib>
 #include <iostream>
 

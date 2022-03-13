@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <kdtree/point_traits.hpp>
 #include <cmath>
 #include <ostream>
